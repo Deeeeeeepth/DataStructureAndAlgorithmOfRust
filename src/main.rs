@@ -1,5 +1,3 @@
-use std::thread::panicking;
-
 fn main() {
     println!("Hello, world!");
 }
@@ -110,7 +108,7 @@ impl<T> List<T> {
             cur = cur.next.as_mut().unwrap();
         }
 
-        cur.next = cur.next.take();
+        cur.next = cur.next.as_mut().unwrap().next.take();
         self.len -= 1;
     }
 
@@ -210,7 +208,8 @@ mod tests {
         list.insert_at_tail(3);
 
         list.delete_ith(1);
-        assert!(list.get_ith(1) == Some(&3));
+        let second_item = list.get_ith(1);
+        assert!(second_item == Some(&3));
     }
 
     #[test]
